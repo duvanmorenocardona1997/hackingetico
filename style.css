@@ -1,0 +1,172 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+header, footer {
+    background-color: #333;
+    color: #fff;
+}
+h1, h2 {
+    color: #0056b3;
+}
+
+#introduccion {
+    margin-bottom: 2rem;
+}
+
+#introduccion h2 {
+    color: #0056b3;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+#introduccion p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+#introduccion ul {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+}
+
+#introduccion ul li {
+    margin-bottom: 1rem;
+}
+
+#prerequisitos {
+    margin-bottom: 2rem;
+}
+
+#prerequisitos h2 {
+    color: #0056b3;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+#prerequisitos p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+#prerequisitos ol {
+    margin-left: 1.5rem;
+    padding-left: 1rem;
+}
+
+#prerequisitos ol li {
+    margin-bottom: 1.5rem;
+}
+
+#prerequisitos ul {
+    margin-left: 1rem;
+    padding-left: 1rem;
+}
+
+#prerequisitos ul li {
+    margin-bottom: 0.5rem;
+}
+
+#instalacion-docker {
+    margin-bottom: 2rem;
+}
+
+#instalacion-docker h2 {
+    color: #0056b3;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+#instalacion-docker p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+#instalacion-docker video {
+    display: block;
+    margin: 1rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#instalacion-docker pre {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+#instalacion-pacu {
+    margin-bottom: 2rem;
+}
+
+#instalacion-pacu h2 {
+    color: #0056b3;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+#instalacion-pacu p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+#instalacion-pacu video {
+    display: block;
+    margin: 1rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#instalacion-pacu pre {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+#configuracion-credenciales-pacu {
+    margin-bottom: 2rem;
+}
+
+#configuracion-credenciales-pacu h2 {
+    color: #0056b3;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+#configuracion-credenciales-pacu p {
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-align: justify;
+}
+
+#configuracion-credenciales-pacu video {
+    display: block;
+    margin: 1rem 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#configuracion-credenciales-pacu pre {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1rem;
+    font-family: monospace;
+    font-size: 1rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}

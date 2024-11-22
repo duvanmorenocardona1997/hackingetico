@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hacking Ético - Blog</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="bg-dark text-white text-center py-4">
+      <h1>Hacking Ético</h1>
+      <p>Un análisis sobre seguridad informática</p>
+    </header>
+    <main class="container mt-4">
+      <section id="introduccion">
+        <h2>Introducción</h2>
+        <p>
+          La seguridad en entornos de computación en la nube, específicamente en
+          <strong>Amazon Web Services (AWS)</strong>, ha evolucionado para
+          enfrentar los desafíos que surgen de su adopción masiva. AWS, como
+          líder en servicios en la nube, ofrece un amplio conjunto de
+          herramientas para la gestión de infraestructura, pero también
+          introduce una complejidad inherente que puede derivar en
+          configuraciones erróneas, permisos excesivos y vulnerabilidades
+          explotables.
+        </p>
+        <p>
+          Para abordar estos desafíos, se emplearon herramientas especializadas
+          que permiten realizar evaluaciones exhaustivas de la seguridad en AWS
+          desde una perspectiva ofensiva y defensiva. En este artículo,
+          describimos cómo se implementaron estas herramientas para analizar
+          vulnerabilidades y fortalecer la postura de seguridad en un entorno
+          basado en AWS. Las herramientas utilizadas incluyen:
+        </p>
+        <ul>
+          <li>
+            <strong>Pacu</strong><br />
+            Un marco desarrollado por
+            <em>Rhino Security Labs</em> específicamente diseñado para realizar
+            pruebas ofensivas en AWS. Pacu permite identificar configuraciones
+            inseguras, realizar escalamiento de privilegios, enumerar recursos y
+            simular escenarios de ataque reales sobre infraestructuras en AWS.
+          </li>
+          <li>
+            <strong>Docker</strong><br />
+            Utilizado como base para contenerizar herramientas y asegurar la
+            portabilidad y estandarización del entorno de pruebas. Docker
+            facilita la ejecución de herramientas como Pacu y
+            <strong>CloudGoat</strong>, reduciendo las diferencias entre
+            entornos locales y de producción.
+          </li>
+          <li>
+            <strong>Prowler</strong><br />
+            Una herramienta de auditoría basada en línea de comandos que evalúa
+            el cumplimiento de estándares de seguridad como
+            <strong>CIS Benchmarks</strong>. Prowler identifica configuraciones
+            inseguras relacionadas con políticas de IAM, registros de auditoría,
+            cifrado, entre otros aspectos críticos de AWS, proporcionando
+            remediaciones detalladas.
+          </li>
+          <li>
+            <strong>CloudGoat</strong><br />
+            Diseñado como un laboratorio de entrenamiento en seguridad en la
+            nube, <em>CloudGoat</em> genera entornos vulnerables en AWS para
+            realizar ejercicios prácticos de ataque y defensa. Este entorno
+            controlado facilita la exploración de técnicas ofensivas y el
+            análisis de vectores de ataque en escenarios realistas.
+          </li>
+        </ul>
+        <p>
+          Este conjunto de herramientas permite un enfoque integral para evaluar
+          la seguridad en AWS, abarcando desde auditorías preventivas hasta
+          simulaciones de ataques ofensivos. La combinación de Pacu y CloudGoat
+          proporciona un marco robusto para explorar vectores de ataque,
+          mientras que Prowler y Docker aseguran que las evaluaciones se lleven
+          a cabo de manera consistente y eficiente.
+        </p>
+        <p>
+          A lo largo de este artículo, detallaremos cómo cada herramienta se
+          configuró y utilizó en un entorno de pruebas, exploraremos hallazgos
+          específicos y presentaremos estrategias para mitigar riesgos en AWS.
+          Este enfoque práctico busca proporcionar a los profesionales de
+          ciberseguridad y administradores de sistemas herramientas clave para
+          fortalecer la resiliencia de sus entornos en la nube.
+        </p>
+      </section>
+
+      <section id="prerequisitos">
+        <h2>Pre-requisitos</h2>
+        <p>
+          Antes de comenzar con el análisis y las pruebas de seguridad en AWS,
+          asegúrate de cumplir con los siguientes requisitos:
+        </p>
+        <ol>
+          <li>
+            <strong>Cuenta de AWS activa</strong><br />
+            Se necesita una cuenta de AWS con acceso a los servicios básicos,
+            como IAM, S3, EC2 y CloudTrail. Asegúrate de tener habilitada la
+            facturación para no superar los límites gratuitos.
+          </li>
+          <li>
+            <strong>Permisos mínimos en AWS</strong><br />
+            Se recomienda crear un usuario con permisos específicos para
+            realizar auditorías y pruebas. El usuario debe tener los siguientes
+            permisos:
+            <ul>
+              <li>Lectura de configuraciones de IAM, S3 y EC2.</li>
+              <li>Acceso a registros de CloudTrail.</li>
+              <li>
+                Creación y eliminación de recursos en un entorno de pruebas.
+              </li>
+            </ul>
+          </li>
+        </ol>
+      </section>
+
+      <section id="instalacion-docker">
+        <h2>Instalación de Docker</h2>
+        <p>
+          Docker es una herramienta esencial para contenerizar las aplicaciones
+          y herramientas utilizadas en este análisis. A continuación, se muestra
+          un video con los pasos y comandos necesarios para instalar Docker en
+          un sistema basado en Linux. Si estás utilizando otro sistema
+          operativo, puedes consultar la
+          <a href="https://docs.docker.com/get-docker/" target="_blank"
+            >documentación oficial de Docker</a
+          >.
+        </p>
+        <video
+          controls
+          width="100%"
+          poster="assets/videos/docker/docker_instalation.mp4"
+        >
+          <source
+            src="assets/videos/docker/docker_instalation.mp4"
+            type="video/mp4"
+          />
+          Tu navegador no soporta la reproducción de video. Descarga el archivo
+          desde <a href="assets/videos/docker/docker_instalation.mp4">aquí</a>.
+        </video>
+        <p>Comandos utilizados en el video:</p>
+        <pre>
+# Instalar Docker
+sudo apt update
+sudo apt install -y docker.io
+
+# Habiliar docker
+sudo systemctl enable docker --now
+
+# Verificar la instalación
+sudo docker --version
+    </pre
+        >
+      </section>
+
+      <section id="instalacion-pacu">
+        <h2>Instalación de Pacu</h2>
+        <p>
+          Pacu es una herramienta diseñada para realizar pruebas ofensivas en
+          entornos de AWS. A continuación, se muestra un video con los pasos y
+          comandos necesarios para instalar Pacu en un sistema basado en
+          <strong>Kali Linux</strong>. También puedes consultar el repositorio
+          oficial de Pacu en
+          <a href="https://github.com/RhinoSecurityLabs/pacu" target="_blank"
+            >GitHub</a
+          >.
+        </p>
+        <video controls width="100%" poster="assets/videos/pacu/pacu_instalatio.mp4">
+          <source src="assets/videos/pacu/pacu_instalatio.mp4" type="video/mp4" />
+          Tu navegador no soporta la reproducción de video. Descarga el archivo
+          desde <a href="assets/videos/pacu/pacu_instalatio.mp4">aquí</a>.
+        </video>
+        <p>Comandos utilizados en el video:</p>
+        <pre>
+# Actualizar paquetes
+sudo apt update
+
+# Instalar Pacu 
+sudo apt install pacu
+
+# Ejecutar Pacu
+pacu
+    </pre
+        >
+        <p>
+          Una vez que completes estos pasos, Pacu estará listo para usarse.
+          Puedes inicializar el programa con el comando
+          <code>pacu</code> dentro del directorio clonado.
+        </p>
+      </section>
+
+<section id="configuracion-credenciales-pacu">
+    <h2>Configuración de Credenciales en Pacu</h2>
+    <p>
+        Una vez que Pacu está instalado, es necesario configurar las credenciales de AWS para realizar pruebas en el entorno deseado. Este paso permite a Pacu autenticar las solicitudes a los servicios de AWS. A continuación, se muestra un video con los pasos necesarios para configurar credenciales en <strong>Pacu</strong>. También puedes consultar la <a href="https://github.com/RhinoSecurityLabs/pacu" target="_blank">documentación oficial</a> para más detalles.
+    </p>
+    <video controls width="100%" poster="assets/videos/pacu/config pacu set credentials.mp4">
+        <source src="assets/videos/pacu/config pacu set credentials.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/pacu/config pacu set credentials.mp4">aquí</a>.
+    </video>
+    <p>Pasos para configurar las credenciales en Pacu:</p>
+    <pre>
+# Ejecutar Pacu
+pacu
+
+# Iniciar sesión en el entorno interactivo de Pacu
+# Utiliza el siguiente comando para agregar un nuevo perfil de AWS
+add_keys
+
+# Proveer la clave de acceso y la clave secreta
+AWS Access Key ID: <tu-clave-de-acceso>
+AWS Secret Access Key: <tu-clave-secreta>
+
+# Confirmar y guardar las credenciales
+> Las credenciales se guardarán en el perfil seleccionado
+    </pre>
+    <p>
+        Una vez configuradas, las credenciales estarán disponibles para todas las interacciones dentro del entorno de Pacu. Asegúrate de utilizar un perfil con permisos mínimos para reducir riesgos de seguridad.
+    </p>
+</section>
+
+
+
+
+      <section>
+        <h2>Desarrollo</h2>
+        <p>Aquí va el desarrollo del artículo.</p>
+      </section>
+      <section>
+        <h2>Conclusión</h2>
+        <p>Aquí va la conclusión del artículo.</p>
+      </section>
+    </main>
+    <footer class="bg-dark text-white text-center py-3 mt-4">
+      <p>Equipo de Hacking Ético | © 2024</p>
+    </footer>
+  </body>
+</html>
