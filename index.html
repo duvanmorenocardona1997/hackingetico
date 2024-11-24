@@ -117,7 +117,7 @@
           </li>
         </ol>
       </section>
-
+<hr>
       <section id="instalacion-docker">
         <h2>Instalación de Docker</h2>
         <p>
@@ -156,7 +156,7 @@ sudo docker --version
     </pre
         >
       </section>
-
+      <hr>
       <section id="instalacion-pacu">
         <h2>Instalación de Pacu</h2>
         <p>
@@ -224,19 +224,133 @@ AWS Secret Access Key: <tu-clave-secreta>
 </section>
 
 
+<section id="uso-pacu-escalada-privilegios">
+    <h2>Uso de Pacu para Escalada de Privilegios</h2>
+    <p>
+        Pacu permite identificar configuraciones mal diseñadas en AWS que podrían facilitar la escalada de privilegios. Este proceso es crucial para evaluar el impacto potencial de permisos excesivos o configuraciones inseguras en políticas de IAM. En esta sección, mostramos un ejemplo práctico utilizando Pacu para simular una escalada de privilegios en un entorno controlado.
+    </p>
+    <video controls width="100%" poster="assets/videos/pacu/scale privilage pacu.mp4">
+        <source src="assets/videos/pacu/scale privilage pacu.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/pacu/scale privilage pacu.mp4">aquí</a>.
+    </video>
+    <p>Pasos para realizar escalada de privilegios con Pacu:</p>
+    <pre>
+# Ejecutar el módulo para identificar posibles rutas de escalada
+run iam__privesc_scan
+    </pre>
+    <p>
+        Este módulo permite identificar y explotar configuraciones mal diseñadas en políticas de IAM que podrían permitir un escalamiento no autorizado. Es importante ejecutar estas pruebas únicamente en entornos controlados y autorizados.
+    </p>
+</section>
+<hr>
+<section id="instalacion-cloudgoat">
+    <h2>Instalación de CloudGoat</h2>
+    <p>
+        CloudGoat es una herramienta diseñada para simular entornos vulnerables en AWS, ideal para practicar y comprender técnicas de ataque y defensa en la nube. A continuación, se muestra un video con los pasos necesarios para instalar CloudGoat en un sistema basado en Linux. También puedes consultar la <a href="https://github.com/RhinoSecurityLabs/cloudgoat" target="_blank">documentación oficial</a> para más detalles.
+    </p>
+    <video controls width="100%" poster="assets/videos/cloudgoat/instalation_cloudgoald.mp4">
+        <source src="assets/videos/cloudgoat/instalation_cloudgoald.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/cloudgoat/instalation_cloudgoald.mp4">aquí</a>.
+    </video>
+    <p>Pasos para instalar CloudGoat:</p>
+    <pre>
+# Clonar el repositorio de CloudGoat
+git clone https://github.com/RhinoSecurityLabs/cloudgoat.git
+
+# Cambiar al directorio de CloudGoat
+cd cloudgoat
+
+# Build de la imagen de Docker
+docker build -t cloudgoat .
+
+# Run CloudGoat en un contenedor de Docker
+docker run -it cloudgoat
+
+# Configurar cloudgoat
+cd /usr/src/cloudgoat
+
+./cloudgoat.py config profile
+
+# Continuar con la configuración
+
+    </pre>
+    <p>
+        Después de completar estos pasos, CloudGoat estará listo para generar escenarios vulnerables. En la configuración inicial, asegúrate de proporcionar las credenciales de AWS necesarias y utiliza un entorno controlado para realizar pruebas.
+    </p>
+</section>
 
 
-      <section>
-        <h2>Desarrollo</h2>
-        <p>Aquí va el desarrollo del artículo.</p>
-      </section>
-      <section>
-        <h2>Conclusión</h2>
-        <p>Aquí va la conclusión del artículo.</p>
-      </section>
-    </main>
-    <footer class="bg-dark text-white text-center py-3 mt-4">
-      <p>Equipo de Hacking Ético | © 2024</p>
-    </footer>
+<section id="uso-cloudgoat-cloud-breach-s3">
+    <h2>Uso de CloudGoat: Escenario cloud_breach_s3</h2>
+    <p>
+        CloudGoat permite crear escenarios de vulnerabilidades en AWS para probar habilidades de ataque y defensa. En este caso, se usa el escenario <strong>cloud_breach_s3</strong>, que simula un acceso no autorizado a un bucket S3 a través de configuraciones erróneas de IAM. A continuación, se presenta un video que muestra cómo configurar y ejecutar este escenario.
+    </p>
+    <video controls width="100%" poster="assets/videos/cloudgoat/cloudgoat appling cloud_breach_s3.mp4">
+        <source src="assets/videos/cloudgoat/cloudgoat appling cloud_breach_s3.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/cloudgoat/cloudgoat appling cloud_breach_s3.mp4">aquí</a>.
+    </video>
+    <p>Pasos para implementar el escenario cloud_breach_s3:</p>
+    <pre>
+# Activar el escenario cloud_breach_s3
+./cloudgoat.py create cloud_breach_s3
+
+# Confirmar la creación del entorno
+# CloudGoat generará los recursos necesarios en AWS
+# La salida mostrará información útil para comenzar la prueba
+
+# Después de terminar las pruebas, destruir el escenario
+./cloudgoat.py destroy cloud_breach_s3
+    </pre>
+    <p>
+        Este escenario simula un bucket S3 mal configurado que permite a un atacante obtener acceso no autorizado. Durante el ejercicio, se puede usar herramientas como <strong>Pacu</strong> para explotar el entorno y analizar la exposición de los datos.
+    </p>
+</section>
+<hr>
+<section id="instalacion-prowler">
+    <h2>Instalación de Prowler</h2>
+    <p>
+        Prowler es una herramienta de línea de comandos que permite auditar configuraciones de seguridad y cumplimiento en cuentas de AWS. Es ampliamente utilizada para evaluar el cumplimiento de estándares como <strong>CIS Benchmarks</strong>. A continuación, se muestra un video que detalla los pasos necesarios para instalar Prowler en un sistema basado en Linux.
+    </p>
+    <video controls width="100%" poster="assets/videos/prowler/install prowler.mp4">
+        <source src="assets/videos/prowler/install prowler.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/prowler/install prowler.mp4">aquí</a>.
+    </video>
+    <p>Pasos para instalar Prowler:</p>
+    <pre>
+# Instalar prowler con pip
+pip3 install prowler
+
+# Verificar que la instalación fue exitosa
+prowler -v
+    </pre>
+    <p>
+        Después de instalar Prowler, puedes usarlo para realizar auditorías de seguridad en tu cuenta de AWS. Se recomienda configurar credenciales de AWS antes de ejecutar cualquier análisis.
+    </p>
+</section>
+
+<section id="escaneo-prowler">
+    <h2>Escaneo con Prowler</h2>
+    <p>
+        Prowler permite realizar auditorías de seguridad en cuentas de AWS para identificar configuraciones inseguras, malas prácticas y evaluar el cumplimiento de estándares como los <strong>CIS Benchmarks</strong>. En esta sección, se muestra cómo ejecutar un escaneo con Prowler y analizar los resultados obtenidos.
+    </p>
+    <video controls width="100%" poster="assets/videos/prowler/scan prowler.mp4">
+        <source src="assets/videos/prowler/scan prowler.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video. Descarga el archivo desde <a href="assets/videos/prowler/scan prowler.mp4">aquí</a>.
+    </video>
+    <p>Pasos para realizar un escaneo con Prowler:</p>
+    <pre>
+# Ejecutar un escaneo general de la cuenta de AWS
+prowler aws
+
+    </pre>
+    <p>Resultado del análisis:</p>
+    <img src="assets/scan_prowler.png" alt="Resultado del análisis con Prowler" width="100%">
+    <img src="assets/scan_prowler_2.png" alt="Resultado del análisis con Prowler" width="100%">
+    <img src="assets/scan_prowler_3.png" alt="Resultado del análisis con Prowler" width="100%">
+    <p>
+        La imagen muestra un ejemplo de los resultados generados por Prowler. Cada ítem indica el cumplimiento o incumplimiento de una configuración específica, proporcionando recomendaciones para su corrección.
+    </p>
+</section>
+
   </body>
 </html>
